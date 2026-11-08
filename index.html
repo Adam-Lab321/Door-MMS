@@ -438,12 +438,13 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
       <div class="eyebrow">San Andreas National Guard</div>
       <h1>
         Military Medical Service
-        <span>Служебный портал рапортов</span>
+        <span>Служебный портал · рапорты и экзамен</span>
       </h1>
       <div class="divider"></div>
       <p class="tagline">
-        Выберите режим работы. Сотрудник заполняет рапорт.
-        Проверка доступна только командованию.
+        Выберите режим работы. Рапорт — для сотрудников.
+        Медицинский экзамен — для кадетов и сотрудников.
+        Проверка рапортов — только командованию.
       </p>
 
       <div class="actions">
@@ -452,6 +453,14 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
           <span class="btn-inner">
             Открыть рапорт
             <span class="hint">для сотрудников · без пароля</span>
+          </span>
+        </button>
+
+        <button type="button" class="btn" id="btnExam">
+          <span class="ico">🩺</span>
+          <span class="btn-inner">
+            Медицинский экзамен
+            <span class="hint">академия · без пароля</span>
           </span>
         </button>
 
@@ -499,6 +508,7 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
   var CONFIG = {
     URL_REPORT:   'https://adam-lab321.github.io/mms-report-sang/',
     URL_REVIEW:   'https://adam-lab321.github.io/MMS-Report/',
+    URL_EXAM:     'https://adam-lab321.github.io/mms-medical-exam/',
     REVIEWER_PIN: 'MMS-COMMAND',
     EXIT_MS:      400,
     BOOT_MS:      2600
@@ -518,7 +528,7 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
 
   var body = document.body;
   var boot = $('boot'), panel = $('panel'), stage = $('stage');
-  var btnReport = $('btnReport'), btnReview = $('btnReview');
+  var btnReport = $('btnReport'), btnExam = $('btnExam'), btnReview = $('btnReview');
   var overlay = $('pinOverlay'), pinCard = $('pinCard'), pinInput = $('pinInput'), pinErr = $('pinErr');
 
   var reduced = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -573,6 +583,7 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
     body.classList.add('instant');
     body.classList.remove('is-leaving', 'returning');
     if (btnReport) btnReport.disabled = false;
+    if (btnExam) btnExam.disabled = false;
     if (btnReview) btnReview.disabled = false;
     void body.offsetWidth;
     body.classList.remove('instant');
@@ -593,6 +604,7 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
     if (navigating) return;
     navigating = true;
     if (btnReport) btnReport.disabled = true;
+    if (btnExam) btnExam.disabled = true;
     if (btnReview) btnReview.disabled = true;
     body.classList.remove('slow-nav');
     body.classList.add('is-leaving');
@@ -627,6 +639,7 @@ try { if (sessionStorage.getItem('mmsHubBooted')) document.documentElement.class
   });
 
   btnReport.addEventListener('click', function () { go(CONFIG.URL_REPORT); });
+  if (btnExam) btnExam.addEventListener('click', function () { go(CONFIG.URL_EXAM); });
 
   function openPin() {
     lastFocus = document.activeElement;
